@@ -2,7 +2,7 @@
 // using loop
 
 languages = ['C is fun', 'Pythons is cool', 'avaScript is amazing'];
-for (let l = 0; l < languages; i++)
+for (const l of languages)
 {
     console.log(l);
 
