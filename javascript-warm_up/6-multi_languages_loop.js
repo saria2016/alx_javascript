@@ -1,8 +1,6 @@
 #!/usr/bin/node
 // using loop
 
-languages = ['C is fun', 'Pythons is cool', 'avaScript is amazing'];
-for (const l of languages)
-{
-    console.log(l);
+for (const line of ['C is fun', 'Python is cool', 'JavaScript is amazing']) {
+    console.log(line);
 }
