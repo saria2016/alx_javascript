@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies</title>
+</head>
+
+<body>
+    <h1> Login to the website</h1>
+    <div id="loginForm" style="display: none;">
+        <h2>Login Form</h2>
+        <input type="text" id="firstname" placeholder="Firstname" />
+        <input type="email" id="email" placeholder="Email" />
+        <button type="button" onclick="setCookies()">Log me in</button>
+    </div>
+    <h1 id="welcomeMessage" style="display: none;"></h1>
+    <br>
+    <button type="button" onclick="showForm()">Show the form</button>
+
+    <script>
+        function setCookies() {
+            const firstname = document.getElementById('firstname');
+            const email = document.getElementById('email');
+            const nameValue = firstname.value;
+            const emailValue = email.value;
+
+            // Create an instance of Date to add an expiration date
+            const expirationDate = new Date();
+            expirationDate.setDate(expirationDate.getDate() + 10);
+
+            // Add an expiration date to the cookies
+            document.cookie = `firstname=${nameValue}; expires=${expirationDate.toUTCString()}`;
+            document.cookie = `email=${emailValue}; expires=${expirationDate.toUTCString()}`;
+
+            alert("Cookies set successfully");
+        }
+
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return '';
+        }
+
+        function showCookies() {
+            const email = getCookie('email');
+            const firstname = getCookie('firstname');
+            const cookiesElement = document.getElementById('cookiesValue');
+            cookiesElement.innerHTML = `Email: ${email} - Firstname: ${firstname}`;
+        }
+
+        function showForm() {
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            const loginForm = document.getElementById('loginForm');
+            welcomeMessage.style.display = 'none';
+            loginForm.style.display = 'block';
+        }
+
+        function hideForm() {
+            const loginForm = document.getElementById('loginForm');
+            loginForm.style.display = 'none';
+        }
+
+        function deleteCookiesAndShowForm() {
+            document.cookie = 'firstname=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+            document.cookie = 'email=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+            showForm();
+        }
+
+        function showWelcomeMessageOrForm() {
+            const email = getCookie('email');
+            const firstname = getCookie('firstname');
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            const loginForm = document.getElementById('loginForm');
+
+            if (email && firstname) {
+                document.body.innerHTML = '<h1>Welcome ' + firstname + ' <a href="3-index.html" onclick="deleteCookiesAndShowForm(); return false;" style="font-weight: normal; font-style: italic; margin-left: 10px;">(logout)</a></h1>';
+                welcomeMessage.style.display = 'none';
+                loginForm.style.display = 'block';
+            } else {
+                welcomeMessage.style.display = 'none';
+                loginForm.style.display = 'block';
+            }
+        }
+
+        showWelcomeMessageOrForm();
+    </script>
+</body>
+
+</html>

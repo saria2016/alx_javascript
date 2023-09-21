@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        ul {
+            list-style-type: none;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        const availableItems = ["Shampoo", "Soap", "Sponge", "Water"];
+
+        function checkLocalStorageSupport() {
+            try {
+                const testKey = "__test__";
+                localStorage.setItem(testKey, testKey);
+                localStorage.removeItem(testKey);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function addItemToCart(item) {
+            localStorage.setItem(item, true);
+            displayCart();
+        }
+
+        function createStore() {
+            const ul = document.createElement('ul');
+            document.body.appendChild(ul);
+
+            availableItems.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                li.addEventListener('click', () => addItemToCart(item));
+                ul.appendChild(li);
+            });
+        }
+
+        function displayCart() {
+            const cartItems = Object.keys(localStorage);
+            if (cartItems.length === 0) return;
+
+            const cartMessage = `You previously had ${cartItems.length} item${cartItems.length > 1 ? 's' : ''} in your cart.`;
+            const p = document.createElement('p');
+            p.textContent = cartMessage;
+            document.body.appendChild(p);
+        }
+
+        if (checkLocalStorageSupport()) {
+            createStore();
+            displayCart();
+        } else {
+            alert("Sorry, your browser does not support Web storage. Try again with a better one.");
+        }
+    </script>
+</body>
+
+</html>
