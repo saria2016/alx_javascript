@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Cart System</title>
+    <style>
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cart-item button {
+            padding: 5px 10px;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        const availableItems = ["Shampoo", "Soap", "Sponge", "Water"];
+
+        function checkSessionStorageSupport() {
+            try {
+                const testKey = "__test__";
+                sessionStorage.setItem(testKey, testKey);
+                sessionStorage.removeItem(testKey);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function getCartFromStorage() {
+            const cartString = sessionStorage.getItem("cart");
+            return cartString ? JSON.parse(cartString) : {};
+        }
+
+        function addItemToCart(item) {
+            const cart = getCartFromStorage();
+            if (cart[item]) {
+                cart[item]++;
+            } else {
+                cart[item] = 1;
+            }
+            sessionStorage.setItem("cart", JSON.stringify(cart));
+            displayCart();
+        }
+
+        function removeItemFromCart(item) {
+            const cart = getCartFromStorage();
+            delete cart[item];
+            sessionStorage.setItem("cart", JSON.stringify(cart));
+            displayCart();
+        }
+
+        function clearCart() {
+            sessionStorage.removeItem("cart");
+            displayCart();
+        }
+
+        function createStore() {
+            const h2 = document.createElement('h2');
+            h2.textContent = "Available products:";
+            document.body.appendChild(h2);
+
+            const ul = document.createElement('ul');
+            document.body.appendChild(ul);
+
+            availableItems.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                li.addEventListener('click', () => addItemToCart(item));
+                ul.appendChild(li);
+            });
+        }
+
+        function displayCart() {
+            const cart = getCartFromStorage();
+            const cartDiv = document.getElementById('cart');
+            cartDiv.innerHTML = '';
+
+            const h2 = document.createElement('h2');
+            h2.textContent = "Your cart:";
+            cartDiv.appendChild(h2);
+
+            if (Object.keys(cart).length === 0) {
+                const emptyCart = document.createElement('p');
+                emptyCart.textContent = "Your cart is empty";
+                cartDiv.appendChild(emptyCart);
+            } else {
+                const ul = document.createElement('ul');
+                cartDiv.appendChild(ul);
+
+                Object.entries(cart).forEach(([item, quantity]) => {
+                    const li = document.createElement('li');
+                    li.classList.add('cart-item');
+                    li.textContent = `${item} x ${quantity}`;
+                    const removeButton = document.createElement('button');
+                    removeButton.textContent = "remove";
+                    removeButton.addEventListener('click', () => removeItemFromCart(item));
+                    li.appendChild(removeButton);
+                    ul.appendChild(li);
+                });
+            }
+
+            const clearButton = document.createElement('button');
+            clearButton.textContent = "Clear my cart";
+            clearButton.addEventListener('click', clearCart);
+            cartDiv.insertBefore(clearButton, cartDiv.firstChild);
+        }
+
+        if (checkSessionStorageSupport()) {
+            createStore();
+
+            const cartDiv = document.createElement('div');
+            cartDiv.id = 'cart';
+            document.body.appendChild(cartDiv);
+
+            displayCart();
+        } else {
+            alert("Sorry, your browser does not support Web storage. Try again with a better one.");
+        }
+    </script>
+</body>
+
+</html>
