@@ -1,28 +1,27 @@
-// get input element by using ID
-const passwordEl = document.querySelector('#password');
-const form = document.querySelector('#passwordForm');
+const emailEl = document.querySelector('#email');
 
-// Function to check the Password
+const form = document.querySelector('#emailForm');
 
-const checkPassword = () => {
+
+const checkEmail = () => {
     let valid = false;
-    const password = passwordEl.value.trim();
-    if (!isRequired(password)) {
-        showError(passwordEl, 'Password cannot be blank.');
-    } else if (!isPasswordSecure(password)) {
-        showError(passwordEl, 'Password must has at least 8 characters that include at least 1 lowercase character, 1 uppercase characters, 1 number, and 1 special character in (!@#$%^&*)');
+    const email = emailEl.value.trim();
+    if (!isRequired(email)) {
+        showError(emailEl, 'Email cannot be blank.');
+    } else if (!isEmailValid(email)) {
+        showError(emailEl, 'Email is not valid.')
     } else {
-        showSuccess(passwordEl);
+        showSuccess(emailEl);
         valid = true;
     }
     return valid;
 };
 
-// to insure Password is content at least long is 8 caracter and at least 1 upper and 1 lower and 1 number
-const isPasswordSecure = (password) => {
-    const re = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-    return re.test(password);
+const isEmailValid = (email) => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
 };
+
 
 const isRequired = value => value === '' ? false : true;
 const isBetween = (length, min, max) => length < min || length > max ? false : true;
@@ -59,9 +58,9 @@ form.addEventListener('submit', function (e) {
     e.preventDefault();
 
     // validate fields
-    let isPasswordValid = checkPassword();
-
-    let isFormValid = isPasswordValid ;
+    let isUsernameValid = isEmailValid = checkEmail();
+       
+    let isFormValid =isEmailValid ;
 
     // submit to the server if the form is valid
     if (isFormValid) {
@@ -86,8 +85,10 @@ const debounce = (fn, delay = 500) => {
 
 form.addEventListener('input', debounce(function (e) {
     switch (e.target.id) {
-        case 'password':
-            checkPassword();
+       
+        case 'email':
+            checkEmail();
             break;
+       
     }
 }));
