@@ -104,3 +104,51 @@ body {
 .btn:focus {
     outline: none;
 }
+/* Add CSS for the dropdown select */
+/* CSS for the select element */
+select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f2f2f2;
+    color: #333;
+    width: 150px;
+  }
+  
+  /* CSS for the select dropdown arrow */
+  select::-ms-expand {
+    display: none;
+  }
+  
+  select option {
+    background-color: #f2f2f2;
+    color: #333;
+  }
+  
+  /* CSS for the select dropdown arrow */
+  select:after {
+    content: '\25BC';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #555;
+    pointer-events: none;
+  }
+  
+  /* CSS for the select dropdown when opened */
+  select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* CSS for the select dropdown when opened */
+  select:focus:after {
+    content: '\25B2';
+  }
+  .error-message {
+    color: red;
+    display: none;
+  }
