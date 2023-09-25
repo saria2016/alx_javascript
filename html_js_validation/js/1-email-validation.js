@@ -2,6 +2,7 @@ const emailEl = document.querySelector('#email');
 
 const form = document.querySelector('#emailForm');
 
+// Function to check the Email in correct syntax and check it if empty or not 
 
 const validateEmail = () => {
     let valid = false;
@@ -17,6 +18,7 @@ const validateEmail = () => {
     return valid;
 };
 
+// check Email is content '@' and '.' in any email to check it before submitted
 const isEmailValid = (email) => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);

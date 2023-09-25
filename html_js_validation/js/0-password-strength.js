@@ -2,7 +2,7 @@
 const passwordEl = document.querySelector('#password');
 const form = document.querySelector('#passwordForm');
 
-// Function to check the Password
+// Function to check the Password is not empty and content criteria 
 
 const validatePassword = () => {
     let valid = false;
