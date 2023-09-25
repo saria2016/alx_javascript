@@ -4,7 +4,7 @@ const form = document.querySelector('#passwordForm');
 
 // Function to check the Password
 
-const checkPassword = () => {
+const validatePassword = () => {
     let valid = false;
     const password = passwordEl.value.trim();
     if (!isRequired(password)) {
@@ -59,7 +59,7 @@ form.addEventListener('submit', function (e) {
     e.preventDefault();
 
     // validate fields
-    let isPasswordValid = checkPassword();
+    let isPasswordValid = validatePassword();
 
     let isFormValid = isPasswordValid ;
 
@@ -87,7 +87,7 @@ const debounce = (fn, delay = 500) => {
 form.addEventListener('input', debounce(function (e) {
     switch (e.target.id) {
         case 'password':
-            checkPassword();
+            validatePassword();
             break;
     }
 }));

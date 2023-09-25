@@ -3,7 +3,7 @@ const emailEl = document.querySelector('#email');
 const form = document.querySelector('#emailForm');
 
 
-const checkEmail = () => {
+const validateEmail = () => {
     let valid = false;
     const email = emailEl.value.trim();
     if (!isRequired(email)) {
@@ -58,7 +58,7 @@ form.addEventListener('submit', function (e) {
     e.preventDefault();
 
     // validate fields
-    let isUsernameValid = isEmailValid = checkEmail();
+    let isUsernameValid = isEmailValid = validateEmail();
        
     let isFormValid =isEmailValid ;
 
@@ -87,7 +87,7 @@ form.addEventListener('input', debounce(function (e) {
     switch (e.target.id) {
        
         case 'email':
-            checkEmail();
+            validateEmail();
             break;
        
     }
