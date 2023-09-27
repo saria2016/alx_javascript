@@ -16,6 +16,18 @@ dynamicForm.addEventListener("submit", function(event) {
     event.preventDefault(); // Prevent form submission if validation fails
     // Display the error messages
     displayErrorMessages();
+  } else {
+    // Clear any existing error messages and remove the green border
+    clearErrorMessages();
+    removeGreenBorder();
+  }
+});
+
+// Add event listeners to the input fields to clear error messages and show green border when typing
+inputContainer.addEventListener("input", function(event) {
+  if (event.target.tagName === "INPUT") {
+    clearErrorMessage(event.target);
+    addGreenBorder(event.target);
   }
 });
 
@@ -73,5 +85,37 @@ function displayErrorMessages() {
   for (var i = 0; i < errorMessages.length; i++) {
     var errorMessage = errorMessages[i];
     errorMessage.style.display = "block";
+  }
+}
+
+// Function to clear the error messages
+function clearErrorMessages() {
+  var errorMessages = inputContainer.getElementsByClassName("error-message");
+
+  for (var i = 0; i < errorMessages.length; i++) {
+    var errorMessage = errorMessages[i];
+    errorMessage.textContent = "";
+    errorMessage.style.display = "none";
+  }
+}
+
+// Function to clear a specific error message
+function clearErrorMessage(input) {
+  var errorMessage = input.nextElementSibling;
+  errorMessage.textContent = "";
+  errorMessage.style.display = "none";
+}
+
+// Function to add a green border to the input field
+function addGreenBorder(input) {
+  input.style.border = "2px solid green";
+}
+
+// Function to remove the green border from the input field
+function removeGreenBorder() {
+  var inputs = inputContainer.getElementsByTagName("input");
+
+  for (var i = 0; i < inputs.length; i++) {
+    inputs[i].style.border = "";
   }
 }
