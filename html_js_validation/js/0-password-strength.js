@@ -1,4 +1,4 @@
-// Retrieve  element by using ID
+// Retrieve element by using ID
 var form = document.getElementById('passwordForm');
 var passwordInput = document.getElementById('password');
 
@@ -38,13 +38,21 @@ form.addEventListener('submit', function(event) {
   }
 });
 
-// Attach an event listener to the password input's input event to check it when user is typing
+// Attach an event listener to the password input's input event to check it when the user is typing
 passwordInput.addEventListener('input', function() {
-  // Clear the error message when the user starts typing
+  // Remove the error message when the user starts typing
   clearError();
 
-  // Remove the green border when the user starts typing
-  passwordInput.style.border = '';
+  // Validate the password
+  var password = passwordInput.value;
+  var isValid = validatePassword(password);
+
+  // Add or remove green border based on password validity
+  if (isValid) {
+    passwordInput.style.border = '2px solid green';
+  } else {
+    passwordInput.style.border = '';
+  }
 });
 
 // Function to display an error message
@@ -59,7 +67,7 @@ function clearError() {
   errorElement.textContent = '';
 }
 
-// Function to validate the password to check it if meet all criteria
+// Function to validate the password to check if it meets all criteria
 function validatePassword(password) {
   // Define the password criteria using regular expressions
   var lengthRegex = /.{8,}/;
