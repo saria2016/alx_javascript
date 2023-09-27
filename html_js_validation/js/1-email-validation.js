@@ -1,96 +1,72 @@
-const emailEl = document.querySelector('#email');
+// Retrieve the form element
+var form = document.getElementById('emailForm');
 
-const form = document.querySelector('#emailForm');
+// Retrieve the email input element
+var emailInput = document.getElementById('email');
 
-// Function to check the Email in correct syntax and check it if empty or not 
+// Attach an event listener to the form's submit event
+form.addEventListener('submit', function(event) {
+  // Prevent the form from being submitted by default
+  event.preventDefault();
 
-const validateEmail = () => {
-    let valid = false;
-    const email = emailEl.value.trim();
-    if (!isRequired(email)) {
-        showError(emailEl, 'Email cannot be blank.');
-    } else if (!isEmailValid(email)) {
-        showError(emailEl, 'Please enter a valid email address.')
-    } else {
-        showSuccess(emailEl);
-        valid = true;
-    }
-    return valid;
-};
+  // Retrieve the email input value
+  var email = emailInput.value;
 
-// check Email is content '@' and '.' in any email to check it before submitted
-const isEmailValid = (email) => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-};
+  // Trim leading/trailing whitespace and check for blank email
+  if (email.trim() === '') {
+    // Display an error message for blank email
+    displayError('Email cannot be blank.');
+    return;
+  }
 
+  // Validate the email
+  var isValid = validateEmail(email);
 
-const isRequired = value => value === '' ? false : true;
-const isBetween = (length, min, max) => length < min || length > max ? false : true;
+  // Display error message or submit the form
+  if (isValid) {
+    // Clear any previous error message
+    clearError();
 
-
-const showError = (input, message) => {
-    // get the form-field element
-    const formField = input.parentElement;
-    // add the error class
-    formField.classList.remove('success');
-    formField.classList.add('error');
-
-    // show the error message
-    const error = formField.querySelector('p');
-    error.textContent = message;
-};
-
-const showSuccess = (input) => {
-    // get the form-field element
-    const formField = input.parentElement;
-
-    // remove the error class
-    formField.classList.remove('error');
-    formField.classList.add('success');
-
-    // hide the error message
-    const error = formField.querySelector('p');
-    error.textContent = '';
-}
-
-
-form.addEventListener('submit', function (e) {
-    // prevent the form from submitting
-    e.preventDefault();
-
-    // validate fields
-    let isUsernameValid = isEmailValid = validateEmail();
-       
-    let isFormValid =isEmailValid ;
-
-    // submit to the server if the form is valid
-    if (isFormValid) {
-
-    }
+    // Submit the form
+    form.submit();
+  } else {
+    // Display an error message
+    displayError('Please enter a valid email address.');
+  }
 });
 
+// Attach an event listener to the email input's input event
+emailInput.addEventListener('input', function() {
+  // Remove the error message when the user starts typing
+  clearError();
 
-const debounce = (fn, delay = 500) => {
-    let timeoutId;
-    return (...args) => {
-        // cancel the previous timer
-        if (timeoutId) {
-            clearTimeout(timeoutId);
-        }
-        // setup a new timer
-        timeoutId = setTimeout(() => {
-            fn.apply(null, args)
-        }, delay);
-    };
-};
+  // Add green border around the email input
+  emailInput.style.border = '2px solid green';
+});
 
-form.addEventListener('input', debounce(function (e) {
-    switch (e.target.id) {
-       
-        case 'email':
-            validateEmail();
-            break;
-       
-    }
-}));
+// Function to display an error message
+function displayError(message) {
+  var errorElement = document.getElementById('error');
+  errorElement.textContent = message;
+}
+
+// Function to clear the error message
+function clearError() {
+  var errorElement = document.getElementById('error');
+  errorElement.textContent = '';
+
+  // Remove the green border from the email input
+  emailInput.style.border = '';
+}
+
+// Function to validate the email
+function validateEmail(email) {
+  // Define the email format using regular expression
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Check if the email matches the format
+  var isValid = emailRegex.test(email);
+
+  // Return the validation result
+  return isValid;
+}
