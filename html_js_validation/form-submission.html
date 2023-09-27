@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Document</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <div class="container">
         <form id="submitForm" class="form">
             <h1>Sign Up</h1>
             <div class="form-field">
-                <label for="username">Username:</label>
-                <input type="text" name="username" id="username" autocomplete="off">
-                <small></small>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <span id="nameError" class="error-message"></span>
             </div>
 
             <div class="form-field">
                 <label for="email">Email:</label>
-                <input type="text" name="email" id="email" autocomplete="off">
-                <small></small>
+                <input type="email" id="email" name="email" required>
+                <span id="emailError" class="error-message"></span>
             </div>
 
             <div class="form-field">
                 <label for="password">Password:</label>
-                <input type="password" name="password" id="password" autocomplete="off">
-                <small></small>
+                <input type="password" id="password" name="password" required>
+                <span id="passwordError" class="error-message"></span>
             </div>
-
 
             <div class="form-field">
                 <label for="confirm-password">Confirm Password:</label>
-                <input type="password" name="confirm-password" id="confirm-password" autocomplete="off">
-                <small></small>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+                <span id="confirmPasswordError" class="error-message"></span>
             </div>
 
             <div class="form-field">
@@ -41,4 +42,5 @@
 
     <script src="js/3-form-submission.js"></script>
 </body>
+
 </html>
